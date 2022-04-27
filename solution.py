@@ -166,4 +166,4 @@ def get_route(hostname):
                 mySocket.close()
 
 if __name__ == '__main__':
-    #print(get_route("google.co.il"))
+    get_route("google.co.il")
