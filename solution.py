@@ -51,6 +51,19 @@ def build_packet():
 
     # So the function ending should look like this
 
+    myChecksum = 0
+
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
+    data = struct.pack("d", time.time())
+    myChecksum = checksum(header + data)
+
+    if sys.platform == 'darwin':
+        # Convert 16-bit integers from host to network  byte order
+        myChecksum = htons(myChecksum) & 0xffff
+    else:
+        myChecksum = htons(myChecksum)
+
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
     packet = header + data
     return packet
 
